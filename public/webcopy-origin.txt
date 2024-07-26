@@ -1,0 +1,3 @@
+npx prettier . --write
+npx prettier . --check
+del .git\index.lock

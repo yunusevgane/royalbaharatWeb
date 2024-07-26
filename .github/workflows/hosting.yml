@@ -1,0 +1,37 @@
+# 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
+
+name: Transfer Files
+on:
+  - pull_request
+  - push
+jobs:
+  transfer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v3
+        with:
+          repository: yunusevgane/royalbaharatWeb
+          path: source
+
+      - name: Checkout target repository
+        uses: actions/checkout@v3
+        with:
+          repository: royalbaharat/royalbaharat
+          path: target
+          token: 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
+
+      - name: Copy files
+        run: |
+          cp -R source/public/* target/
+          cd target
+          git config user.name "Royal Baharat"
+          git config user.email "royalbaharat@hotmail.com"
+          git add .
+          git diff --quiet && git diff --staged --quiet || git commit -m "Edit"
+          git push
+
+      - name: List transferred files
+        run: |
+          echo "Files transferred to target repository:"
+          ls -R target/
